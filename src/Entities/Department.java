@@ -1,12 +1,12 @@
 package Entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Department {
+public class Department implements Serializable {
 
     private Integer id;
     private String name;
-
 
     public Department() {
     };
