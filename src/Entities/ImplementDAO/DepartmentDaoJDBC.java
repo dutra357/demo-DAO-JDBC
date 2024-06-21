@@ -3,8 +3,13 @@ import DataBase.DataBase;
 import Entities.Department;
 import Entities.ModelDAO.DepartmentDAO;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import DataBase.DbException;
+import Entities.Seller;
 
 public class DepartmentDaoJDBC implements DepartmentDAO {
 
@@ -89,11 +94,55 @@ public class DepartmentDaoJDBC implements DepartmentDAO {
 
     @Override
     public Department findById(Integer id) {
-        return null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = connection.prepareStatement("SELECT * FROM department WHERE Id = ?");
+
+            st.setInt(1, id);
+
+            //'rs' returns a table.
+            rs = st.executeQuery();
+            if (rs.next()) {
+                Department department = new Department();
+                department.setName(rs.getString("Name"));
+                department.setId(rs.getInt("Id"));
+                return department;
+            }
+            return null;
+
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DataBase.closeStatement(st);
+            DataBase.closeResultSet(rs);
+        }
     }
 
     @Override
     public List<Department> findAll() {
-        return List.of();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = connection.prepareStatement("SELECT * FROM department ORDER BY Name");
+
+            rs = st.executeQuery();
+
+            List<Department> list = new ArrayList<>();
+            while (rs.next()) {
+                Department department = new Department();
+                department.setId(rs.getInt("Id"));
+                department.setName(rs.getString("Name"));
+                list.add(department);
+            }
+            return list;
+
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DataBase.closeStatement(st);
+            DataBase.closeResultSet(rs);
+        }
     }
 }
