@@ -4,6 +4,7 @@ import Entities.FactoryDAO;
 import Entities.ModelDAO.SellerDAO;
 import Entities.Seller;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class Program {
@@ -20,9 +21,15 @@ public class Program {
         List<Seller> list = sellerDAO.findByDepartment(department);
         list.forEach(System.out::println);
 
-        System.out.println("\n=== TEST 3: Seller findAll ===");
+        System.out.println("\n=== TEST 4: Seller findAll ===");
         List<Seller> findAll = sellerDAO.findAll();
         findAll.forEach(System.out::println);
+
+
+        System.out.println("\n=== TEST 3: Seller Insert ===");
+        Seller newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.00, department);
+        sellerDAO.insert(newSeller);
+        System.out.println("Inserted! New id: " + newSeller.getId());
 
     }
 }
