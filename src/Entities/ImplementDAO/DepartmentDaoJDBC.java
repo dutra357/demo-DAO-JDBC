@@ -1,10 +1,10 @@
 package Entities.ImplementDAO;
-
+import DataBase.DataBase;
 import Entities.Department;
 import Entities.ModelDAO.DepartmentDAO;
-
-import java.sql.Connection;
+import java.sql.*;
 import java.util.List;
+import DataBase.DbException;
 
 public class DepartmentDaoJDBC implements DepartmentDAO {
 
@@ -15,7 +15,33 @@ public class DepartmentDaoJDBC implements DepartmentDAO {
 
     @Override
     public void insert(Department department) {
+        PreparedStatement st = null;
+        ResultSet rs;
+        try {
+            st = connection.prepareStatement(
+                    "INSERT INTO department\n" +
+                            "(Name) \n" +
+                            "VALUES \n" +
+                            "(?)", Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, department.getName());
 
+            int rowsAffected = st.executeUpdate();
+
+            if (rowsAffected > 0) {
+                rs = st.getGeneratedKeys();
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    department.setId(id);
+                }
+                DataBase.closeResultSet(rs);
+            } else {
+                throw new DbException("Unexpected ERROR! No rows affected.");
+            }
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DataBase.closeStatement(st);
+        }
     }
 
     @Override
