@@ -1,26 +1,26 @@
 package Application;
 import Entities.Department;
 import Entities.FactoryDAO;
-import Entities.ModelDAO.SellerDAO;
-import Entities.Seller;
+import Entities.ModelDAO.DepartmentDAO;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Program {
+public class ProgramDepartment {
     public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
-        SellerDAO sellerDAO = FactoryDAO.createSellerDao();
+
+        DepartmentDAO departmentDao = FactoryDAO.createDepartmentDao();
 
         System.out.println("\n=== TEST 1: Seller findById ===");
-        Seller seller1 = sellerDAO.findById(3);
-        System.out.println(seller1);
+        //Seller seller1 = departmentDao.findById(3);
+        //System.out.println(seller1);
 
         System.out.println("\n=== TEST 2: Seller findByDepartment ===");
         Department department = new Department(2, null);
-        List<Seller> list = sellerDAO.findByDepartment(department);
-        list.forEach(System.out::println);
+        //List<Seller> list = departmentDao.findByDepartment(department);
+        //list.forEach(System.out::println);
 
         System.out.println("\n=== TEST 3: Seller findAll ===");
         //List<Seller> findAll = sellerDAO.findAll();
@@ -39,9 +39,9 @@ public class Program {
         //System.out.println("Update completed!");
 
         System.out.println("\n=== TEST 6: Seller DELETE ===");
-        System.out.println("Enter id for delete statement: ");
-        int id = sc.nextInt();
-        sellerDAO.deleteById(id);
+        //System.out.println("Enter id for delete statement: ");
+        //int id = sc.nextInt();
+        //sellerDAO.deleteById(id);
 
     }
 }
