@@ -43,5 +43,7 @@ public class ProgramSeller {
         int id = sc.nextInt();
         sellerDAO.deleteById(id);
 
+        sc.close();
+
     }
 }

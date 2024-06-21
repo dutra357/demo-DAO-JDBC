@@ -4,12 +4,8 @@ import Entities.Department;
 import Entities.ModelDAO.DepartmentDAO;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import DataBase.DbException;
-import Entities.Seller;
 
 public class DepartmentDaoJDBC implements DepartmentDAO {
 
