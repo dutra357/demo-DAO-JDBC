@@ -50,7 +50,7 @@ public class DepartmentDaoJDBC implements DepartmentDAO {
         ResultSet rs;
         try {
             st = connection.prepareStatement(
-                    "UPDATE seller \n" +
+                    "UPDATE department \n" +
                             "SET Name = ? \n" +
                             "WHERE Id = ?");
             st.setString(1, department.getName());
@@ -67,7 +67,24 @@ public class DepartmentDaoJDBC implements DepartmentDAO {
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement st = null;
+        try {
+            st = connection.prepareStatement("DELETE FROM department \n" +
+                    "WHERE Id = ?");
+            st.setInt(1, id);
 
+            int rows = st.executeUpdate();
+
+            if (rows == 0) {
+                System.out.println("Nothing to delete.");
+            } else {
+                System.out.println("Delete completed!");
+            }
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DataBase.closeStatement(st);
+        }
     }
 
     @Override
